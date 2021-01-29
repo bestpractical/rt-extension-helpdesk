@@ -1,0 +1,98 @@
+use strict;
+use warnings;
+
+our @Queues = (
+    {
+        Name         => 'Support',
+        Description  => 'Queue for triaging support tickets.',
+        Lifecycle    => 'support',
+    }
+);
+
+our @Groups = (
+    {
+        Name        => 'Support',
+        Description => 'Group for support representatives.',
+    },
+);
+
+my @EveryoneRights = qw/CreateTicket ReplyToTicket SeeQueue/;
+our @ACL = map {
+    {
+        Right       => $_,
+        Queue       => 'Support',
+        GroupDomain => 'SystemInternal',
+        GroupType   => 'Everyone'
+    }
+} @EveryoneRights;
+
+push @ACL, map {
+    {
+        Right       => $_,
+        Queue       => 'Support',
+        GroupDomain => 'RT::System-Role',
+        GroupType   => 'Requestor'
+    }
+} qw/ShowTicket/;
+
+my @SupportRepresentativeRights = qw/CommentOnTicket Watch SeeCustomField
+  SeeQueue ShowTicket OwnTicket WatchAsAdminCC StealTicket TakeTicket
+  ShowTicketComments ModifyTicket ModifyCustomField ShowOutgoingEmail
+/;
+push @ACL, map {
+    {
+        Right       => $_,
+        Queue       => 'Support',
+        GroupDomain => 'UserDefined',
+        GroupId     => 'Support',
+    }
+} @SupportRepresentativeRights;
+
+our @ScripActions = (
+    {
+      Name        => 'Set Status - waiting for customer',
+      Description => 'Set status of ticket to waiting for customer',
+      ExecModule  => 'SetStatus',
+      Argument    => 'waiting for customer',
+    },
+    {
+      Name        => 'Set Status - waiting for support',
+      Description => 'Set status of ticket to waiting for support',
+      ExecModule  => 'SetStatus',
+      Argument    => 'waiting for support',
+    },
+);
+
+our @ScripConditions = (
+    {
+        Name                 => 'On Requestor Reply',
+        Description          => 'When a requestor on a ticket replies.',
+        ApplicableTransTypes => 'Correspond',
+        ExecModule           => 'RequestorReply',
+    },
+    {
+        Name                 => 'On Non-Requestor Reply',
+        Description          => 'When any user who is not a requestor on a ticket replies.',
+        ApplicableTransTypes => 'Correspond',
+        ExecModule           => 'NonRequestorReply',
+    },
+);
+
+our @Scrips = (
+    {
+        Queue           => 'support',
+        Description     => 'On Requestor Correspond Update Status To "waiting for support"',
+        ScripCondition  => 'On Requestor Reply',
+        ScripAction     => 'Set Status - waiting for support',
+        Template        => 'Blank',
+        Stage           => 'TransactionCreate',
+    },
+    {
+        Queue           => 'support',
+        Description     => 'On Non-Requestor Correspond Update Status To "waiting for customer"',
+        ScripCondition  => 'On Non-Requestor Reply',
+        ScripAction     => 'Set Status - waiting for customer',
+        Template        => 'Blank',
+        Stage           => 'TransactionCreate',
+    },
+);
