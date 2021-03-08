@@ -54,6 +54,59 @@ Add this line:
 
 =back
 
+
+=head1 WHAT THIS EXTENSION DOES
+
+This extension adds some useful help desk configurations to get started.
+
+It create a new queue, the L<Support Queue> for tracking all of the incoming help desk requests.
+On this queue some sensible default rights are set. The first group granted rights is the "Everyone" group.
+This is an "internal" group to RT, and as the name implies it encompasses every user in RT.
+
+=begin HTML
+
+<p><img width="500px" src="https://static.bestpractical.com/images/helpdesk/everyone_group_rights.png"
+alt="Group rights for 'Everyone' group on 'Support' queue" /></p>
+
+=end HTML
+
+With a typical support desk setup, these rights are exactly whats needed. Anyone is able to write into our support
+address with a help desk question, and they can always reply and follow-up on that request.
+
+It is also desirable to have a group to track and elevate the rights of our support representatives. The L<Support Group>
+is created for just this purpose.
+
+=begin HTML
+
+<p><img width="500px" src="https://static.bestpractical.com/images/helpdesk/support_group_rights.png"
+alt="Group rights for 'Support' group on 'Support' queue" /></p>
+
+=end HTML
+
+Here additional rights are granted to the support representatives, mainly the rights center around being able to
+own and edit tickets in the support queue.
+
+Since we have a specific queue for help desk request it also makes a lot of sense to make a specific workflow for these
+request. In RT a ticket workflow is known as the L<Lifecycle|https://docs.bestpractical.com/rt/latest/customizing/lifecycles.html>.
+
+=begin HTML
+
+<p><img width="500px" src="https://static.bestpractical.com/images/helpdesk/support_lifecycle.png"
+alt="Lycycle for 'Support' queue" /></p>
+
+=end HTML
+
+The support lifecycle here uses custom statuses such as "waiting for customer" and "waiting for support" for which we can enable some
+handy automation around.
+
+The automation applied to the support queue is designed to allow support reps to more easily keep track of support
+request that they should be working on. There are two new "Scrips" ( A scrip is the internal automation for RT ) that
+are added L<On Requestor Correspond Update Status To "waiting for support"> and L<On Non-Requestor Correspond Update Status To "waiting for customer">.
+These scrips handle switching the status of a support ticket based on who last updated the ticket, the customer or the support rep.
+
+This allows for the support rep to know based on the status of a ticket, whether the customer is waiting to hear back from them
+or they are waiting to hear back from the customer.
+
 =head1 CONFIGURATION
 
 =over
