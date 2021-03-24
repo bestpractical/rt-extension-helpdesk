@@ -6,13 +6,7 @@ our $VERSION = '0.01';
 
 =head1 NAME
 
-RT-Extension-HelpDesk - Simple help desk vertical for RT.
-
-=head1 DESCRIPTION
-
-This extension provides a simple L<initialdata|https://docs.bestpractical.com/rt/latest/initialdata.html/> file
-to insert some sane help desk defaults. See the L<CONFIGURATION|CONFIGURATION> section for more information
-on these defaults.
+RT-Extension-HelpDesk - Default Help desk configuration for Request Tracker
 
 =head1 RT VERSION
 
@@ -54,14 +48,38 @@ Add this line:
 
 =back
 
+=head1 DESCRIPTION
 
-=head1 WHAT THIS EXTENSION DOES
+One common use for Request Tracker (RT) is tracking user issues,
+typically related to IT services. The "help desk" is often a department,
+either a designated help desk with many agents for large organizations,
+or sometimes only a one or two people who handle all IT services for a
+smaller organization.
 
-This extension adds some useful help desk configurations to get started.
+RT is used to track incoming user requests so they don't get lost
+and can be assigned to individual people to handle. It's also useful
+for gathering general reporting on the volume of user IT requests
+and what types of issues seem to generate the most issues.
 
-It create a new queue, the L<Support Queue> for tracking all of the incoming help desk requests.
-On this queue some sensible default rights are set. The first group granted rights is the "Everyone" group.
-This is an "internal" group to RT, and as the name implies it encompasses every user in RT.
+This extension provides an L<initialdata|https://docs.bestpractical.com/rt/latest/initialdata.html/> file
+to configure a queue with some sensible default rights configuration
+for a typical help desk. Once installed, you can then edit the
+configuration to best suit your needs.
+
+=head2 Support Queue
+
+It creates a new queue called L<Support> for tracking all of the
+incoming help desk requests. You can change the name to anything you
+like after installing. In a typical configuration, you will also
+want to assign an RT email address, like support@example.com or
+helpdesk@example.com to create tickets in this queue.
+
+=head2 Rights
+
+Some typical initial rights are set on the L<Support> queue. The
+system group "Everyone" gets a default set of rights to allow end
+users to create tickets. Everyone is system group provided with RT,
+and as the name implies it encompasses every user in RT.
 
 =begin HTML
 
@@ -70,11 +88,21 @@ alt="Group rights for 'Everyone' group on 'Support' queue" /></p>
 
 =end HTML
 
-With a typical support desk setup, these rights are exactly whats needed. Anyone is able to write into our support
-address with a help desk question, and they can always reply and follow-up on that request.
+These rights are usually the minimum needed for a typical support
+desk. Anyone is able to write into our support address with a help
+desk question, and they can reply and follow-up on that request if
+we send them some questions.
 
-It is also desirable to have a group to track and elevate the rights of our support representatives. The L<Support Group>
-is created for just this purpose.
+The extension also grants "ShowTicket" to the Requestor role. If your
+end users have access to RT's self service interface, this allows them
+to see only tickets where they are the Requestor, which should be
+the tickets they opened.
+
+Our internal support representatives will need many more rights to
+work on tickets. To make it easy to add and remove access for
+staff users, this extension creates a L<Support Group>. Rights are
+granted to the group, so membership in the group is all a user needs
+to get those rights.
 
 =begin HTML
 
@@ -83,58 +111,41 @@ alt="Group rights for 'Support' group on 'Support' queue" /></p>
 
 =end HTML
 
-Here additional rights are granted to the support representatives, mainly the rights center around being able to
-own and edit tickets in the support queue.
+=head2 Support Lifecycle
 
-Since we have a specific queue for help desk request it also makes a lot of sense to make a specific workflow for these
-request. In RT a ticket workflow is known as the L<Lifecycle|https://docs.bestpractical.com/rt/latest/customizing/lifecycles.html>.
+RT allows you to create and configure custom workflows for each queue
+in the system.  In RT a ticket workflow is known as a L<Lifecycle|https://docs.bestpractical.com/rt/latest/customizing/lifecycles.html>.
+This extension provies a custom lifecycle called "support" that
+defines the various statuses a ticket can be in.
 
 =begin HTML
 
 <p><img width="500px" src="https://static.bestpractical.com/images/helpdesk/support_lifecycle.png"
-alt="Lycycle for 'Support' queue" /></p>
+alt="Lifecycle for 'Support' queue" /></p>
 
 =end HTML
 
-The support lifecycle here uses custom statuses such as "waiting for customer" and "waiting for support" for which we can enable some
-handy automation around.
+The custom statuses "waiting for customer" and "waiting for support" triggers
+some automation around replying to support requests.
 
-The automation applied to the support queue is designed to allow support reps to more easily keep track of support
-request that they should be working on. There are two new "Scrips" ( A scrip is the internal automation for RT ) that
-are added L<On Requestor Correspond Update Status To "waiting for support"> and L<On Non-Requestor Correspond Update Status To "waiting for customer">.
-These scrips handle switching the status of a support ticket based on who last updated the ticket, the customer or the support rep.
-
-This allows for the support rep to know based on the status of a ticket, whether the customer is waiting to hear back from them
-or they are waiting to hear back from the customer.
-
-=head1 CONFIGURATION
+The automation applied to the support queue is designed to allow support staff
+to more easily keep track of support requests that need attention. There are
+two new Scrips that do the following:
 
 =over
 
-=item Support Queue
-
-This extension creates a new queue named "Support". This queue is
-where incoming support request should be created.
-
-=item Support Group
-
-This group is created by the extension and granted rights to perform typical
-support opperations on tickets in the support group. You should add any support
-representative users to this group.
-
 =item On Requestor Correspond Update Status To "waiting for support"
 
-Automation to switch ticket status to "waiting for support" when a requestor replies to a ticket,
-the requestor is typically the customer who is asking for support.
+Updates the ticket status to "waiting for support" when a requestor replies
+to a ticket. The requestor is typically the end user who is asking for
+support.
 
 =item On Non-Requestor Correspond Update Status To "waiting for customer"
 
-Automation to switch ticket status to "waiting for customer" when a user
+Updates the ticket status to "waiting for customer" when a user
 who is not a requestor on the ticket replies on the ticket. This usually means
 the support representative in charge of the ticket sent an email to the customer
 and is waiting for some feedback.
-
-=back
 
 =head1 AUTHOR
 
