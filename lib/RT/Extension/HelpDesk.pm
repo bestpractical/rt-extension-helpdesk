@@ -147,6 +147,20 @@ who is not a requestor on the ticket replies on the ticket. This usually means
 the support representative in charge of the ticket sent an email to the customer
 and is waiting for some feedback.
 
+=item Support Dashboard
+
+This extension created a new dashboard called "Support" in which any member of the support group can view.
+This dashboard has a default saved search added to it, "Highest severity tickets waiting on support".
+
+=head2 Next Steps
+
+Once the Help Desk extension is installed, there are a few optional steps to take to
+improve the help desk experience.
+
+1.As an RT admin set the L<default queue|https://docs.bestpractical.com/rt/5.0.1/RT_Config.html#DefaultQueue> for the ticket create page to the "support" queue.
+
+2. Got to Admin->Global->Modify Reports MenuAdd and add the 'Support' dashboard to the "Reports" menu.
+
 =head1 AUTHOR
 
 Best Practical Solutions, LLC E<lt>modules@bestpractical.comE<gt>
