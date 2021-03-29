@@ -142,14 +142,12 @@ our @Attributes = (
             return $group;
         },
         Content     => {
-            Format => qq[''<b><a href="__WebPath__/Ticket/Display.html?id=__id__">__id__</a></b>/TITLE:#',
+            Format => qq['<b><a href="__WebPath__/Ticket/Display.html?id=__id__">__id__</a></b>/TITLE:#',
 '<b><a href="__WebPath__/Ticket/Display.html?id=__id__">__Subject__</a></b>/TITLE:Subject',
 Status,
+'<small>__Requestors__</small>',
 Owner,
 Priority,
-'__NEWLINE__',
-'<small>__Requestors__</small>',
-'<small>__CreatedRelative__</small>',
 '__CustomFieldView.{Severity}__',
 '__CustomField.{Service Impacted}__'],
             Query   => "Queue = 'Support' AND (  Status = 'waiting for support' OR Status = 'open' OR Status = 'new' )",
