@@ -48,6 +48,36 @@ push @ACL, map {
     }
 } @SupportRepresentativeRights;
 
+our @CustomFields = (
+    {
+        Name        => 'Severity',
+        Type        => 'SelectSingle',
+        LookupType  => 'RT::Queue-RT::Ticket',
+        Description => 'Severity of finding',
+        ApplyTo     => 'Support',
+        RenderType  => 'Dropdown',
+        Values      => [
+            { Name => 'Low',    SortOrder => 1 },
+            { Name => 'Medium', SortOrder => 2 },
+            { Name => 'High',   SortOrder => 3 },
+        ],
+    },
+    {
+        Name        => 'Service Impacted',
+        Type        => 'AutocompleteSingle',
+        LookupType  => 'RT::Queue-RT::Ticket',
+        Description => 'Which service is impacted by this ticket',
+        ApplyTo     => 'Support',
+        Values      => [
+            { Name => 'Email', SortOrder => 1 },
+            { Name => 'Website', SortOrder => 2 },
+            { Name => 'Auth Services', SortOrder => 3 },
+            { Name => 'Document Sharing', SortOrder => 4 },
+            { Name => 'Chat', SortOrder => 5 },
+        ],
+    },
+);
+
 our @ScripActions = (
     {
       Name        => 'Set Status - waiting for customer',
