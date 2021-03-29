@@ -105,6 +105,22 @@ DESCRIPTION
         means the support representative in charge of the ticket sent an
         email to the customer and is waiting for some feedback.
 
+  Custom Fields
+    RT allows you to define custom fields on tickets, which can be anything
+    you need to record and track. This extension provides two common to a
+    help desk, Severity and Service Impacted.
+
+    Severity is a dropdown with typical High, Medium, Low values. As an RT
+    admin, you can change these values or add to them at Admin > Custom
+    Fields, then click on Severity.
+
+    Service Impacted is an autocomplete type field, which means users can
+    type in the box and if there is a defined value, it will autocomplete in
+    a menu below the field. If the user needs to add a value that hasn't
+    been used before, they can type in a completely new value. If you would
+    prefer this to be a dropdown like Severity, you can change this in the
+    admin section also.
+
   Support Dashboard
     This extension creates a dashboard called "Support", accessible to any
     member of the Support Group. This dashboard has a default saved search
