@@ -1,5 +1,5 @@
 Set(%CustomFieldGroupings,
  'RT::Ticket' => [
-      'Helpdesp Information' => ['Severity', 'Service Impacted'],
+      'Helpdesk Information' => ['Severity', 'Service Impacted'],
   ],
 );
