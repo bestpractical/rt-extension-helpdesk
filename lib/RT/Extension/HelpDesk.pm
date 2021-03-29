@@ -24,6 +24,14 @@ Works with RT 5.
 
 May need root permissions
 
+=item Edit your F</opt/rt5/etc/RT_SiteConfig.pm>
+
+Add this line:
+
+    Plugin('RT::Extension::HelpDesk');
+
+B<If you don't add the Plugin line and save, you will see errors in the next step.>
+
 =item C<make initdb>
 
 Only run this the first time you install this module.
@@ -33,12 +41,6 @@ in your database.
 
 If you are upgrading this module, check for upgrading instructions
 in case changes need to be made to your database.
-
-=item Edit your F</opt/rt5/etc/RT_SiteConfig.pm>
-
-Add this line:
-
-    Plugin('RT::Extension::HelpDesk');
 
 =item Clear your mason cache
 
@@ -68,11 +70,11 @@ configuration to best suit your needs.
 
 =head2 Support Queue
 
-It creates a new queue called L<Support> for tracking all of the
-incoming help desk requests. You can change the name to anything you
-like after installing. In a typical configuration, you will also
-want to assign an RT email address, like support@example.com or
-helpdesk@example.com to create tickets in this queue.
+After installing, you'll see a new queue called L<Support> for tracking
+all of the incoming help desk requests. You can change the name to
+anything you like after installing. In a typical configuration, you
+will also want to assign an RT email address, like support@example.com
+or helpdesk@example.com to create tickets in this queue.
 
 =head2 Rights
 
@@ -125,8 +127,8 @@ alt="Lifecycle for 'Support' queue" /></p>
 
 =end HTML
 
-The custom statuses "waiting for customer" and "waiting for support" triggers
-some automation around replying to support requests.
+The custom statuses "waiting for customer" and "waiting for support"
+trigger some automation around replying to support requests.
 
 The automation applied to the support queue is designed to allow support staff
 to more easily keep track of support requests that need attention. There are
@@ -147,19 +149,58 @@ who is not a requestor on the ticket replies on the ticket. This usually means
 the support representative in charge of the ticket sent an email to the customer
 and is waiting for some feedback.
 
-=item Support Dashboard
+=back
 
-This extension created a new dashboard called "Support" in which any member of the support group can view.
-This dashboard has a default saved search added to it, "Highest severity tickets waiting on support".
+=head2 Support Dashboard
+
+This extension creates a dashboard called "Support", accessible to any
+member of the Support Group. This dashboard has a default saved search
+called "Highest severity tickets waiting on support".
+
+As the name suggests, this saved search shows all tickets waiting for
+support and displays them in order by severity, so the most important
+will be at the top.
 
 =head2 Next Steps
 
-Once the Help Desk extension is installed, there are a few optional steps to take to
-improve the help desk experience.
+This extension provides a good starting point and you can start using it
+right away. Here are some additional things you can do to customize your
+configuration:
 
-1.As an RT admin set the L<default queue|https://docs.bestpractical.com/rt/5.0.1/RT_Config.html#DefaultQueue> for the ticket create page to the "support" queue.
+=over
 
-2. Got to Admin->Global->Modify Reports MenuAdd and add the 'Support' dashboard to the "Reports" menu.
+=item *
+
+Create new user accounts for other staff and add them to the Support
+Group. You might also remove the root user if that user account won't
+be involved in support.
+
+=item *
+
+Update the custom fields Severity and Service Impacted, changing the
+values in the dropdowns or adding other custom fields that better fit
+your system.
+
+=item *
+
+Edit your templates to customize the default messages you send to users.
+You can find templates at Admin > Global > Templates. For example,
+the "Autoreply in HTML" is the default template that goes to users when
+they open a ticket.
+
+=item *
+
+Users working primarily in support can edit their preferences and set Support
+as their default queue.
+
+=item *
+
+Users can select Reports > Update this menu and add the Support dashboard to
+their reports menu. The RT administrator can do this for all users as well.
+
+(In RT 4.4, the menu is Home > Update this menu.)
+
+=back
 
 =head1 AUTHOR
 
