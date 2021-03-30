@@ -68,6 +68,10 @@ to configure a queue with some sensible default rights configuration
 for a typical help desk. Once installed, you can then edit the
 configuration to best suit your needs.
 
+A L<video is available|https://youtu.be/3Yuqh7zGBJ0> that shows a sample
+RT with this extension installed and it should give you a good idea
+what will be added to your RT.
+
 =head2 Support Queue
 
 After installing, you'll see a new queue called L<Support> for tracking
@@ -102,7 +106,7 @@ the tickets they opened.
 
 Our internal support representatives will need many more rights to
 work on tickets. To make it easy to add and remove access for
-staff users, this extension creates a L<Support Group>. Rights are
+staff users, this extension creates Support group. Rights are
 granted to the group, so membership in the group is all a user needs
 to get those rights.
 

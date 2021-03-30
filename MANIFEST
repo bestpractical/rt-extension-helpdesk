@@ -1,4 +1,5 @@
 Changes
+etc/Helpdesk_Config.pm
 etc/initialdata
 etc/Lifeycle_Config.pm
 inc/Module/Install.pm
