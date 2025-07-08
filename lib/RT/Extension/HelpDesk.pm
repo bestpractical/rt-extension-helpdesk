@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package RT::Extension::HelpDesk;
 
-our $VERSION = '0.03';
+our $VERSION = '1.00';
 
 =head1 NAME
 
